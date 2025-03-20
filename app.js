@@ -25,7 +25,7 @@ const bodyParser = require('body-parser')
 
 const controllerMusica = require('./controller/musica/controllerMusica.js')
 
-//riando o formato de dados que será recebido no body da requisição(POST/PUT)
+//Criando o formato de dados que será recebido no body da requisição(POST/PUT)
 const bodyParserJSON = bodyParser.json()
 
 //Cria o objeto app para criar a api
@@ -42,14 +42,69 @@ app.use((request, response, next)=>{
 
 //EndPoint para inserir uma música
 app.post('/v1/controle-musicas/musica', cors(), bodyParserJSON,async function(request, response) {
+
+    let contentType = request.headers['content-type']
+
     let dadosBody = request.body
 
-    let result = await controllerMusica.inserirMusica(dadosBody)
+    let result = await controllerMusica.inserirMusica(dadosBody, contentType)
     
     response.status(result.status_code)
     response.json(result)
 })
 
+//EndPoint para retornar uma lista de musicas
+app.get('/v1/controle-musicas/musica', cors(), async function(request, response) {
+    
+    //chama a função para retornar uma lista de musicas
+    let result = await controllerMusica.listarMusica()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+//EndPoint para buscar uma musica pelo ID
+app.get('/v1/controle-musicas/musica/:id', cors(), async function(request, response){
+    let idMusica = request.params.id
+
+    let result = await controllerMusica.buscarMusica(idMusica)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.delete('/v1/controle-musicas/musica/:id', cors(), async function (request, response){
+    let idMusica = request.params.id
+
+    let result = await controllerMusica.excluirMusica(idMusica)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+
+
+
+app.put('/v1/controle-musicas/musica/:id', cors(), bodyParserJSON, async function (request, response){
+    
+    let contentType = request.headers['content-type']
+
+    let idMusica = request.params.id
+
+    let dadosBody = request.body
+
+    let result = await controllerMusica.atualizarMusica(dadosBody, idMusica, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+
+
+
+
+
+
+
+})
 app.listen(8080, function(){
     console.log('Servidor aguardando novas requisições...')
 })
