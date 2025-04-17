@@ -9,7 +9,7 @@
  *          cors           npm install cors --save
  *          body-parser    npm install body-parser --save
  * ******Para criar a conexão com o banco de dados MYSQL precisamos instalar:
- *          prisma         npm isntall prisma --save
+ *          prisma         npm install prisma --save
  *        
  *   prisma/client  npm install @prisma/client -- save
  *  Após a instalação do prisma é nescessário inicializa-lo:
