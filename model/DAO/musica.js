@@ -67,7 +67,7 @@ const updateMusica = async function(musica){
       else
           return false
     } catch (error) {
-        returnfalse
+        return false
     }
 }
 

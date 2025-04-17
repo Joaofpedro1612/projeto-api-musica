@@ -24,6 +24,7 @@ const cors       = require('cors')
 const bodyParser = require('body-parser')
 
 const controllerMusica = require('./controller/musica/controllerMusica.js')
+const controllerGenero = require('./controller/genero/controllerGenero.js')
 
 //Criando o formato de dados que será recebido no body da requisição(POST/PUT)
 const bodyParserJSON = bodyParser.json()
@@ -82,9 +83,6 @@ app.delete('/v1/controle-musicas/musica/:id', cors(), async function (request, r
     response.json(result)
 })
 
-
-
-
 app.put('/v1/controle-musicas/musica/:id', cors(), bodyParserJSON, async function (request, response){
     
     let contentType = request.headers['content-type']
@@ -98,13 +96,38 @@ app.put('/v1/controle-musicas/musica/:id', cors(), bodyParserJSON, async functio
     response.status(result.status_code)
     response.json(result)
 
-
-
-
-
-
-
 })
+
+app.post('/v1/controle-musicas/genero', cors(), bodyParserJSON,async function(request, response) {
+
+    let contentType = request.headers['content-type']
+
+    let dadosBody = request.body
+
+    let result = await controllerGenero.inserirGenero(dadosBody, contentType)
+    
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/controle-musicas/genero', cors(), async function(request, response) {
+    
+    //chama a função para retornar uma lista de musicas
+    let result = await controllerGenero.listarGenero()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.delete('/v1/controle-musicas/genero/:id', cors(), async function (request, response){
+    let idGenero = request.params.id
+
+    let result = await controllerGenero.excluirGenero(idGenero)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
 app.listen(8080, function(){
     console.log('Servidor aguardando novas requisições...')
 })
