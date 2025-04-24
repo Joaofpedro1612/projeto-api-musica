@@ -116,6 +116,8 @@ app.post('/v1/controle-musicas/genero', cors(), bodyParserJSON,async function(re
 })
 
 app.get('/v1/controle-musicas/genero', cors(), async function(request, response) {
+
+
     
     //chama a função para retornar uma lista de musicas
     let result = await controllerGenero.listarGenero()
@@ -140,7 +142,6 @@ app.delete('/v1/controle-musicas/genero/:id', cors(), async function (request, r
 
     response.status(result.status_code)
     response.json(result)
-    console.log(status_code)
 })
 
 app.put('/v1/controle-musicas/genero/:id', cors(), bodyParserJSON, async function (request, response){
@@ -171,7 +172,49 @@ app.post('/v1/controle-musicas/cadastro_usuario', cors(), bodyParserJSON,async f
     response.json(result)
 })
 
+app.get('/v1/controle-musicas/cadastro_usuario', cors(), async function(request, response) {
 
+
+    
+    //chama a função para retornar uma lista de musicas
+    let result = await controllerCadastro_usuario.listarCadastros_usuario()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/controle-musicas/cadastro_usuario/:id', cors(), async function(request, response){
+    let id_cadastro_usuario = request.params.id
+
+    let result = await controllerCadastro_usuario.buscarCadastro_usuario(id_cadastro_usuario)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.delete('/v1/controle-musicas/cadastro-usuario/:id', cors(), async function (request, response){
+    let id_cadastro_usuario = request.params.id
+
+    let result = await controllerCadastro_usuario.excluirCadastro_usuario(id_cadastro_usuario)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.put('/v1/controle-musicas/cadastro_usuario/:id', cors(), bodyParserJSON, async function (request, response){
+    
+    let contentType = request.headers['content-type']
+
+    let id_cadastro_usuario = request.params.id
+
+    let dadosBody = request.body
+
+    let result = await controllerCadastro_usuario.atualizarCadastro_usuario(dadosBody, id_cadastro_usuario, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+
+})
 
 app.listen(8080, function(){
     console.log('Servidor aguardando novas requisições...')

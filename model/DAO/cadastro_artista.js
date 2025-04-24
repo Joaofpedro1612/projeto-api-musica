@@ -1,33 +1,28 @@
-/********************************************************************************************************************************
- * Objetivo: Model responsável pelo CRDU de dados de música pelo banco de dados 
- * Data: 13/02/2025
- * Autor: João pedro
- * Versão: 1.0
- ********************************************************************************************************************************/
-
 const { PrismaClient } = require('@prisma/client')
 
   //Instanciando (criar um novo objeto) para realizar a manipulação do script SQL
   const prisma = new PrismaClient()
 
 //Função para inserir uma nova música no banco de dados
-const insertCadastro_usuario = async function(cadastro_usuario){
+const insertCadastro_artista = async function(cadastro_artista){
 
   
     try {
 
-    let sql = `insert into tbl_cadastro_usuario( nome,
+    let sql = `insert into tbl_cadastro_artista( nome,
+                                                 nome_artistico,   
                                                  idade,    
                                                  data_nascimento,
                                                  email,
                                                  senha
                                     )
                              values (
-                                        '${cadastro_usuario.nome}',
-                                        '${cadastro_usuario.idade}',
-                                        '${cadastro_usuario.data_nascimento}',
-                                        '${cadastro_usuario.email}',
-                                        '${cadastro_usuario.senha}'
+                                        '${cadastro_artista.nome}',
+                                        '${cadastro_artista.nome_artistico}',
+                                        '${cadastro_artista.idade}',
+                                        '${cadastro_artista.data_nascimento}',
+                                        '${cadastro_artista.email}',
+                                        '${cadastro_artista.senha}',
         
                                     )`
 
@@ -41,7 +36,6 @@ else
 
 
      }catch (error) {
-        console.log(error)
             return false
      }
 
@@ -49,10 +43,10 @@ else
 
 
 
-const selectAllcadastro_usuario = async function(){
+const selectAllcadastro_artista = async function(){
     try {
         //Script SQL
-        let sql = 'select * from tbl_cadastro_usuario order by id desc'
+        let sql = 'select * from tbl_cadastro_artista order by id_cadastro_artista desc'
 
         //Executa o script SQL no BD e aguarda o retorno dos dados
         let result = await prisma.$queryRawUnsafe(sql)
@@ -67,10 +61,10 @@ const selectAllcadastro_usuario = async function(){
 
 }
 
-const selectByidcadastro_usuario = async function(id){
+const selectByidcadastro_artista = async function(id){
     try {
         //Script SQL
-        let sql = 'select * from tbl_cadastro_usuario where id='+id
+        let sql = 'select * from tbl_cadastro_artista where id='+id
 
         //Executa o script SQL no BD e aguarda o retorno dos dados
         let result = await prisma.$queryRawUnsafe(sql)
@@ -84,10 +78,10 @@ const selectByidcadastro_usuario = async function(id){
     }
 }
 
-const deleteCadastro_usuario = async function(id){
+const deleteCadastro_artista = async function(id){
     try {
         //Script SQL
-        let sql = 'delete from tbl_cadastro_usuario where id='+id
+        let sql = 'delete from tbl_cadastro_artista where id_cadastro_artista='+id
 
         //Executa o script SQL no BD e aguarda o retorno dos dados
         let result = await prisma.$executeRawUnsafe(sql)
@@ -101,10 +95,10 @@ const deleteCadastro_usuario = async function(id){
     }
 }
 
-const updateCadastro_usuario = async function(cadastro_usuario){
+const updateCadastro_artista = async function(cadastro_artista){
     try {
-        let sql = `update tbl_cadastro_usuario set nome = '${cadastro_usuario.nome}'      
-            where id=${cadastro_usuario.id} `
+        let sql = `update tbl_tbl_cadastro_artista set    nome = '${cadastro_artista.nome}'      
+            where id=${cadastro_artista.id} `
 
       //Executa o script SQL no BD e aguarda o retorno dos dados
       let result = await prisma.$executeRawUnsafe(sql)
@@ -116,13 +110,4 @@ const updateCadastro_usuario = async function(cadastro_usuario){
     } catch (error) {
         return false
     }
-}
-
-
-module.exports = {
-    insertCadastro_usuario,
-    selectAllcadastro_usuario,
-    selectByidcadastro_usuario,
-    deleteCadastro_usuario,
-    updateCadastro_usuario
 }
