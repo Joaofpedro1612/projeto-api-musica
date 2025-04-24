@@ -23,8 +23,9 @@ const express    = require('express')
 const cors       = require('cors')
 const bodyParser = require('body-parser')
 
-const controllerMusica = require('./controller/musica/controllerMusica.js')
-const controllerGenero = require('./controller/genero/controllerGenero.js')
+const controllerMusica           = require('./controller/musica/controllerMusica.js')
+const controllerGenero           = require('./controller/genero/controllerGenero.js')
+const controllerCadastro_usuario = require('./controller/cadastro_usuario/controllerCadastro_usuario.js')
 
 //Criando o formato de dados que será recebido no body da requisição(POST/PUT)
 const bodyParserJSON = bodyParser.json()
@@ -40,6 +41,8 @@ app.use((request, response, next)=>{
     app.use(cors())
     next()
 })
+ 
+//MUSICA
 
 //EndPoint para inserir uma música
 app.post('/v1/controle-musicas/musica', cors(), bodyParserJSON,async function(request, response) {
@@ -98,6 +101,8 @@ app.put('/v1/controle-musicas/musica/:id', cors(), bodyParserJSON, async functio
 
 })
 
+
+//GENERO
 app.post('/v1/controle-musicas/genero', cors(), bodyParserJSON,async function(request, response) {
 
     let contentType = request.headers['content-type']
@@ -119,6 +124,15 @@ app.get('/v1/controle-musicas/genero', cors(), async function(request, response)
     response.json(result)
 })
 
+app.get('/v1/controle-musicas/genero/:id', cors(), async function(request, response){
+    let idGenero = request.params.id
+
+    let result = await controllerGenero.buscarGenero(idGenero)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
 app.delete('/v1/controle-musicas/genero/:id', cors(), async function (request, response){
     let idGenero = request.params.id
 
@@ -126,7 +140,38 @@ app.delete('/v1/controle-musicas/genero/:id', cors(), async function (request, r
 
     response.status(result.status_code)
     response.json(result)
+    console.log(status_code)
 })
+
+app.put('/v1/controle-musicas/genero/:id', cors(), bodyParserJSON, async function (request, response){
+    
+    let contentType = request.headers['content-type']
+
+    let idGenero = request.params.id
+
+    let dadosBody = request.body
+
+    let result = await controllerGenero.atualizarGenero(dadosBody, idGenero, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+
+})
+
+//Cadastro_usuario
+app.post('/v1/controle-musicas/cadastro_usuario', cors(), bodyParserJSON,async function(request, response) {
+
+    let contentType = request.headers['content-type']
+
+    let dadosBody = request.body
+
+    let result = await controllerCadastro_usuario.inserirCadastro_usuario(dadosBody, contentType)
+    
+    response.status(result.status_code)
+    response.json(result)
+})
+
+
 
 app.listen(8080, function(){
     console.log('Servidor aguardando novas requisições...')

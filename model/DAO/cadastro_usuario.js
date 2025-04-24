@@ -1,5 +1,5 @@
 /********************************************************************************************************************************
- * Objetivo: Model responsável pelo CRDU de dados de genero pelo banco de dados 
+ * Objetivo: Model responsável pelo CRDU de dados de música pelo banco de dados 
  * Data: 13/02/2025
  * Autor: João pedro
  * Versão: 1.0
@@ -10,16 +10,25 @@ const { PrismaClient } = require('@prisma/client')
   //Instanciando (criar um novo objeto) para realizar a manipulação do script SQL
   const prisma = new PrismaClient()
 
-//Função para inserir um novo gênero no banco de dados
-const insertGenero = async function(genero){
+//Função para inserir uma nova música no banco de dados
+const insertCadastro_usuario = async function(cadastro_usuario){
 
   
     try {
-    let sql = `insert into tbl_genero(
-                                       nome
+
+    let sql = `insert into tbl_cadastro_usuario( nome,
+                                                 idade,    
+                                                 data_nascimento,
+                                                 email,
+                                                 senha
                                     )
                              values (
-                                        '${genero.nome}'
+                                        '${cadastro_usuario.nome}',
+                                        '${cadastro_usuario.idade}',
+                                        '${cadastro_usuario.data_nascimento}',
+                                        '${cadastro_usuario.email}',
+                                        '${cadastro_usuario.senha}',
+        
                                     )`
 
 let result = await prisma.$executeRawUnsafe(sql)
@@ -30,20 +39,19 @@ else
     return false
    
 
-     }catch (error) {
-        console.log(error)
-            return false
 
+     }catch (error) {
+            return false
      }
 
-
-
 }
 
-const selectAllGenero = async function(){
+
+
+const selectAllcadastro_usuario = async function(){
     try {
         //Script SQL
-        let sql = 'select * from tbl_genero order by id_genero desc'
+        let sql = 'select * from tbl_cadastro_usuario order by id_cadastro_usuario desc'
 
         //Executa o script SQL no BD e aguarda o retorno dos dados
         let result = await prisma.$queryRawUnsafe(sql)
@@ -58,10 +66,10 @@ const selectAllGenero = async function(){
 
 }
 
-const selectByidGenero = async function(id){
+const selectByidcadastro_usuario = async function(id){
     try {
         //Script SQL
-        let sql = 'select * from tbl_genero where id='+id
+        let sql = 'select * from tbl_cadastro_usuario where id='+id
 
         //Executa o script SQL no BD e aguarda o retorno dos dados
         let result = await prisma.$queryRawUnsafe(sql)
@@ -75,10 +83,10 @@ const selectByidGenero = async function(id){
     }
 }
 
-const deleteGenero = async function(id){
+const deleteCadastro_usuario = async function(id){
     try {
         //Script SQL
-        let sql = 'delete from tbl_genero where id_genero='+id
+        let sql = 'delete from tbl_cadastro_usuario where id_cadastro_usuario='+id
 
         //Executa o script SQL no BD e aguarda o retorno dos dados
         let result = await prisma.$executeRawUnsafe(sql)
@@ -92,10 +100,10 @@ const deleteGenero = async function(id){
     }
 }
 
-const updateGenero = async function(genero){
+const updateCadastro_usuario = async function(cadastro_usuario){
     try {
-        let sql = `update tbl_genero set    nome = '${genero.nome}'      
-            where id=${genero.id} `
+        let sql = `update tbl_tbl_cadastro_usuario set    nome = '${cadastro_usuario.nome}'      
+            where id=${cadastro_usuario.id} `
 
       //Executa o script SQL no BD e aguarda o retorno dos dados
       let result = await prisma.$executeRawUnsafe(sql)
@@ -109,10 +117,11 @@ const updateGenero = async function(genero){
     }
 }
 
+
 module.exports = {
-    insertGenero,
-    selectAllGenero,
-    selectByidGenero,
-    deleteGenero,
-    updateGenero
+    insertCadastro_usuario,
+    selectAllcadastro_usuario,
+    insertCadastro_usuario,
+    deleteCadastro_usuario,
+    updateCadastro_usuario
 }

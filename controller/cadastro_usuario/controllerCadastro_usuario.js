@@ -1,5 +1,5 @@
 /********************************************************************
- * objetivo: Controller responsável pela manipulação do CRUD de banco de dados de gênero
+ * objetivo: Controller responsável pela manipulação do CRUD de banco de dados de música
  * Data: 13/02/2025
  * Autor: Marcel
  * Versão: 1.0
@@ -7,24 +7,27 @@
 
 const MESSAGE = require('../../modulo/config.js')
 
-//Import do arquivo DAO de gênero para manipular o BD
-const generoDAO = require('../../model/DAO/genero.js')
+//Import do arquivo DAO de música para manipular o BD
+const cadastro_usuarioDAO = require('../../model/DAO/cadastro_usuario.js')
 
-//Função para inserir um gênero
-const inserirGenero = async function(genero, contentType){
+//Função para inserir uma música
+const inserirCadastro_usuario = async function(cadastro_usuario, contentType){
 
 try {
     
     if(String(contentType).toLowerCase()== 'application/json'){
 
-    if( genero.nome             == undefined || genero.nome             == "" || genero.nome             == null || genero.nome.length > 30 
-      
+    if( cadastro_usuario.nome             == undefined || cadastro_usuario.nome             == "" || cadastro_usuario.nome             == null || cadastro_usuario.nome.length > 80 ||
+        cadastro_usuario.idade            == undefined || cadastro_usuario.idade            == "" || cadastro_usuario.idade            == null || cadastro_usuario.idade.length > 200 ||
+        cadastro_usuario.data_nascimento  == undefined || cadastro_usuario.data_nascimento  == ""  || cadastro_usuario.data_nascimento  == null || cadastro_usuario.data_nascimento.length > 5 ||
+        cadastro_usuario.email            == undefined || cadastro_usuario.email            == "" || cadastro_usuario.email            == null || cadastro_usuario.email          .length > 10 ||
+        cadastro_usuario.senha            == undefined || cadastro_usuario.senha            == "" || cadastro_usuario.senha            == null || cadastro_usuario.senha          .length > 10 
     ){
         return MESSAGE.ERROR_REQUIRED_FIELDS//400
     }else{
-       let resultGenero = await generoDAO.insertGenero(genero)
+       let resultCadastro_usuario = await cadastro_usuarioDAO.insertCadastro_usuario(cadastro_usuario)
 
-       if(resultGenero)
+       if(resultCadastro_usuario)
         return MESSAGE.SUCCESS_CREATED_ITEM//201
     else
         return MESSAGE.ERROR_INTERNAL_SERVER_MODEL//500
@@ -39,7 +42,6 @@ try {
     }
 }
 
-//Função para retornar todas uma música
 const listarGenero = async function(){
     
     try {
@@ -71,7 +73,6 @@ const listarGenero = async function(){
 
 }
 
-//Função para retornar uma gênero pelo ID
 const buscarGenero = async function(id){
     try {
         if(id == '' || id == undefined || id == null || isNaN(id) || id <= 0){
@@ -164,10 +165,8 @@ const atualizarGenero = async function(genero, id, contentType){
     }
 }
 
+
+
 module.exports = {
-    inserirGenero,
-    listarGenero,
-    buscarGenero,
-    excluirGenero,
-    atualizarGenero
+    inserirCadastro_usuario,
 }
