@@ -11,23 +11,17 @@ const { PrismaClient } = require('@prisma/client')
   const prisma = new PrismaClient()
 
 //Função para inserir uma nova música no banco de dados
-const insertCadastro_usuario = async function(cadastro_usuario){
+const insertPlaylist = async function(playlist){
 
   
     try {
 
-    let sql = `insert into tbl_cadastro_usuario( nome,
-                                                 idade,    
-                                                 data_nascimento,
-                                                 email,
-                                                 senha
+    let sql = `insert into tbl_playlist(nome, 
+                                        data_criacao
                                     )
                              values (
-                                        '${cadastro_usuario.nome}',
-                                        '${cadastro_usuario.idade}',
-                                        '${cadastro_usuario.data_nascimento}',
-                                        '${cadastro_usuario.email}',
-                                        '${cadastro_usuario.senha}',
+                                        '${playlist.nome}',
+                                        '${playlist.data_criacao}';
         
                                     )`
 
