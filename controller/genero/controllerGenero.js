@@ -121,7 +121,6 @@ try {
 
     
 } catch (error) {
-    console.log(error)
     return MESSAGE.ERROR_INTERNAL_SERVER_CONTROLLER //500
 }
 }
@@ -146,7 +145,7 @@ const atualizarGenero = async function(genero, id, contentType){
                     if(result){
                         return MESSAGE.SUCCESS_UPDATED_ITEM//200
                     }else{
-                        return MESSAGE.ERROR_INTERNAL_SERVER_CONTROLLER//500
+                        return error
                     }
 
                 }else if(resultGenero.status_code == 404){
@@ -160,7 +159,8 @@ const atualizarGenero = async function(genero, id, contentType){
         }
 
     } catch (error) {
-        return MESSAGE.ERROR_INTERNAL_SERVER_CONTROLLER //500
+        console.log(error)
+        return error
     }
 }
 

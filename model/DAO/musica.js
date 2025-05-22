@@ -43,6 +43,7 @@ else
 
 
      }catch (error) {
+        console.log(error)
             return false
      }
 
@@ -102,7 +103,9 @@ const selectAllMusica = async function(){
             return result
         else
             return false
-    } catch (error) {
+    } catch (error) {        
+        console.log(error)
+
         return false
     }
 

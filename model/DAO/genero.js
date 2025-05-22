@@ -31,7 +31,6 @@ else
    
 
      }catch (error) {
-        console.log(error)
             return false
 
      }
@@ -43,7 +42,7 @@ else
 const selectAllGenero = async function(){
     try {
         //Script SQL
-        let sql = 'select * from tbl_genero order by id_genero desc'
+        let sql = 'select * from tbl_genero order by id desc'
 
         //Executa o script SQL no BD e aguarda o retorno dos dados
         let result = await prisma.$queryRawUnsafe(sql)
@@ -53,6 +52,7 @@ const selectAllGenero = async function(){
         else
             return false
     } catch (error) {
+       
         return false
     }
 
@@ -78,7 +78,7 @@ const selectByidGenero = async function(id){
 const deleteGenero = async function(id){
     try {
         //Script SQL
-        let sql = 'delete from tbl_genero where id_genero='+id
+        let sql = 'delete from tbl_genero where id='+id
 
         //Executa o script SQL no BD e aguarda o retorno dos dados
         let result = await prisma.$executeRawUnsafe(sql)
@@ -94,7 +94,7 @@ const deleteGenero = async function(id){
 
 const updateGenero = async function(genero){
     try {
-        let sql = `update tbl_genero set    nome = '${genero.nome}'      
+        let sql = `update tbl_genero set nome = '${genero.nome}'      
             where id=${genero.id} `
 
       //Executa o script SQL no BD e aguarda o retorno dos dados

@@ -1,5 +1,5 @@
 /********************************************************************
- * objetivo: Controller responsável pela manipulação do CRUD de banco de dados de música
+ * objetivo: Controller responsável pela manipulação do CRUD de banco de dados de gênero
  * Data: 13/02/2025
  * Autor: Marcel
  * Versão: 1.0
@@ -7,18 +7,19 @@
 
 const MESSAGE = require('../../modulo/config.js')
 
-//Import do arquivo DAO de música para manipular o BD
+//Import do arquivo DAO de gênero para manipular o BD
 const playlistDAO = require('../../model/DAO/playlist.js')
 
-//Função para inserir uma música
+//Função para inserir um gênero
 const inserirPlaylist = async function(playlist, contentType){
 
 try {
     
     if(String(contentType).toLowerCase()== 'application/json'){
 
-    if( playlist.nome            == undefined || playlist.nome             == "" || playlist.nome             == null || playlist.nome.length > 80 ||
-        playlist.data_criacao    == undefined || playlist.data_criacao     == "" || playlist.data_criacao     == null || playlist.data_criacao > 200 
+    if( playlist.nome             == undefined || playlist.nome             == "" || playlist.nome             == null || playlist.nome.length > 30 ||
+        playlist.data_criacao     == undefined || playlist.data_criacao     == "" || playlist.data_criacao     == null || playlist.data_criacao.length > 10 
+      
     ){
         return MESSAGE.ERROR_REQUIRED_FIELDS//400
     }else{
@@ -39,6 +40,7 @@ try {
     }
 }
 
+//Função para retornar todas uma música
 const listarGenero = async function(){
     
     try {
@@ -70,6 +72,7 @@ const listarGenero = async function(){
 
 }
 
+//Função para retornar uma gênero pelo ID
 const buscarGenero = async function(id){
     try {
         if(id == '' || id == undefined || id == null || isNaN(id) || id <= 0){
@@ -119,7 +122,6 @@ try {
 
     
 } catch (error) {
-    console.log(error)
     return MESSAGE.ERROR_INTERNAL_SERVER_CONTROLLER //500
 }
 }
@@ -144,7 +146,7 @@ const atualizarGenero = async function(genero, id, contentType){
                     if(result){
                         return MESSAGE.SUCCESS_UPDATED_ITEM//200
                     }else{
-                        return MESSAGE.ERROR_INTERNAL_SERVER_CONTROLLER//500
+                        return error
                     }
 
                 }else if(resultGenero.status_code == 404){
@@ -158,12 +160,15 @@ const atualizarGenero = async function(genero, id, contentType){
         }
 
     } catch (error) {
-        return MESSAGE.ERROR_INTERNAL_SERVER_CONTROLLER //500
+        console.log(error)
+        return error
     }
 }
 
-
-
 module.exports = {
     inserirPlaylist,
+    listarGenero,
+    buscarGenero,
+    excluirGenero,
+    atualizarGenero
 }

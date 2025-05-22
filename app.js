@@ -25,7 +25,7 @@ const bodyParser = require('body-parser')
 
 const controllerMusica           = require('./controller/musica/controllerMusica.js')
 const controllerGenero           = require('./controller/genero/controllerGenero.js')
-const controllerCadastro_usuario = require('./controller/cadastro_usuario/controllerCadastro_usuario.js')
+const controllerPlaylist         = require('./controller/playlist/playlistController.js')
 
 //Criando o formato de dados que será recebido no body da requisição(POST/PUT)
 const bodyParserJSON = bodyParser.json()
@@ -116,6 +116,8 @@ app.post('/v1/controle-musicas/genero', cors(), bodyParserJSON,async function(re
 })
 
 app.get('/v1/controle-musicas/genero', cors(), async function(request, response) {
+
+
     
     //chama a função para retornar uma lista de musicas
     let result = await controllerGenero.listarGenero()
@@ -140,7 +142,6 @@ app.delete('/v1/controle-musicas/genero/:id', cors(), async function (request, r
 
     response.status(result.status_code)
     response.json(result)
-    console.log(status_code)
 })
 
 app.put('/v1/controle-musicas/genero/:id', cors(), bodyParserJSON, async function (request, response){
@@ -158,18 +159,20 @@ app.put('/v1/controle-musicas/genero/:id', cors(), bodyParserJSON, async functio
 
 })
 
-//Cadastro_usuario
-app.post('/v1/controle-musicas/cadastro_usuario', cors(), bodyParserJSON,async function(request, response) {
+//playlist
+app.post('/v1/controle-musicas/playlist', cors(), bodyParserJSON,async function(request, response) {
 
     let contentType = request.headers['content-type']
 
     let dadosBody = request.body
 
-    let result = await controllerCadastro_usuario.inserirCadastro_usuario(dadosBody, contentType)
+    let result = await controllerPlaylist.inserirPlaylist(dadosBody, contentType)
     
     response.status(result.status_code)
     response.json(result)
 })
+
+
 
 
 
